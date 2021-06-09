@@ -35,7 +35,7 @@ class Timber {
 		/**
 		 * add plugin twig filters
 		 */
-		add_filter( 'timber/twig' 						, __CLASS__ . '::add_twig_filters' );
+		add_filter( 'timber/twig' 						, __CLASS__ . '::add_globals' );
 
     }
 
@@ -55,7 +55,7 @@ class Timber {
         }
 
         // filter to modify views locations
-        $views = apply_filters( 'timber-over-twig/view-locations', $views );
+        $views = apply_filters( 'timber-over-twig/views-locations', $views );
 
         \Timber::$dirname = $views;
         \Timber::$locations = $views;
@@ -69,7 +69,7 @@ class Timber {
 	 * @param  mixed $twig
 	 * @return void
 	 */
-	public static function add_twig_filters( $twig ) {
+	public static function add_globals( $twig ) {
 
 	    $twig->addExtension( new \Twig_Extension_StringLoader() );
 

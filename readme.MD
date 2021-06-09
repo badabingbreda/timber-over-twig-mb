@@ -23,9 +23,25 @@ I think you should read up on Timber to get to know it's capabilities. [You can 
 |Filtername|Output type|Description|Default
 |---|---|---|---|
 |`timber-over-twig/data`|associative array|Add additional variables/data to the `_context`|post/posts/Timber _context|
+|`timber-over-twig/views-locations`|array|Add views locations|theme/views directory<br>child-theme/views directory|
 |`timber-over-twig/do-shortcodes`|boolean|Run remaining shortcodes after template render|true
 |`timber-over-twig/do-blocks`|boolean|Do blocks after template render|true
 |`timber-over-twig/error-debug`|boolean|Show error messages|false|
+
+
+## Examples
+
+### Adding a view location
+You can add twig-template directories to the paths where Timber will look for a match. Be aware that whenever that the first match that has been found will be used; This means that if you have the same twig-template path/filename in multiple locations, the one found in the first location from the $locations array will be used. 
+
+    add_filter( 'timber-over-twig/views-locations' , 'myplugin_add_twig_templates' , 50, 1 ); 
+
+    function myplugin_add_twig_templates( $locations ) { 
+        // ADD a subdirectory from plugin-folder as a new view-location after the existing ones, reverse if new location is more important
+        return array_merge( $locations, plugin_dir_path( __FILE__ ) . 'twig-templates/' ) ;
+    }
+
+
 
 ---
 ## Version history
