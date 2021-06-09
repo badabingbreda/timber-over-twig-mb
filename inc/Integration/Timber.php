@@ -101,7 +101,12 @@ class Timber {
 			// return the template
 			\Timber::render_string( $_view->post_content , $data );
 
-			return ob_get_clean();
+            $output = ob_get_clean();
+
+            if ( apply_filters( 'timber-over-twig/do-shortcodes' , true ) ) $output = do_shortcode( $output );
+            if ( apply_filters( 'timber-over-twig/do-blocks' , true ) ) $output = do_blocks( $output );
+
+			return $output;
 
 		} catch (Exception $e) {
 			if ( apply_filters( 'timber-over-twig/error-debug' , false ) ) return '[ error handling twig template ] ' . $e->getMessage();
