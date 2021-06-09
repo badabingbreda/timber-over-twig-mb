@@ -22,7 +22,7 @@ namespace TimberOverTwig;
 
 use TimberOverTwig\Init;
 
- define( 'TIMBEROVERTWIG_VERSION', '1.0.0' );
+define( 'TIMBEROVERTWIG_VERSION', '1.0.0' );
 define( 'TIMBEROVERTWIG_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TIMBEROVERTWIG_FILE', __FILE__ );
 define( 'TIMBEROVERTWIG_URL', plugins_url( '/', __FILE__ ) );

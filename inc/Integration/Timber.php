@@ -26,12 +26,40 @@ class Timber {
         // register a filter for MB Views so it uses Timber
 		add_filter( 'mbv_render_output' , __CLASS__ . '::render' , 10 , 3 ) ;
 
+        /**
+         * Add a filter so we can add more paths to timber
+         */
+        add_action( 'init' 								, __CLASS__ . '::configure_views' );
+
+
 		/**
 		 * add plugin twig filters
 		 */
 		add_filter( 'timber/twig' 						, __CLASS__ . '::add_twig_filters' );
 
     }
+
+    /**
+     * Set the array for twig views locations to search in
+     *
+     * @return [type] [description]
+     */
+    public static function configure_views() {
+
+        if ( !class_exists( '\Timber' ) ) return;
+
+        if ( is_array( \Timber::$dirname ) ) {
+            $views = \Timber::$dirname;
+        } else {
+            $views = array( \Timber::$dirname );
+        }
+
+        // filter to modify views locations
+        $views = apply_filters( 'timber-over-twig/view-locations', $views );
+
+        \Timber::$dirname = $views;
+        \Timber::$locations = $views;
+    }    
 	
 	/**
 	 * add_twig_filters
@@ -103,13 +131,14 @@ class Timber {
 
             $output = ob_get_clean();
 
-            if ( apply_filters( 'timber-over-twig/do-shortcodes' , true ) ) $output = do_shortcode( $output );
-            if ( apply_filters( 'timber-over-twig/do-blocks' , true ) ) $output = do_blocks( $output );
+            if ( apply_filters( 'timber-over-twig/do-shortcodes' , true ) === true ) $output = do_shortcode( $output );
+            
+            if ( apply_filters( 'timber-over-twig/do-blocks' , true ) === true ) $output = do_blocks( $output );
 
 			return $output;
 
 		} catch (Exception $e) {
-			if ( apply_filters( 'timber-over-twig/error-debug' , false ) ) return '[ error handling twig template ] ' . $e->getMessage();
+			if ( apply_filters( 'timber-over-twig/error-debug' , false ) === true ) return '[ error handling twig template ] ' . $e->getMessage();
 		}
 
 
