@@ -79,8 +79,8 @@ class Timber {
 
 		return $twig;
 
-	}    
-
+	} 
+	
 	/**
 	 * Alternative render function for MB Views
 	 *
